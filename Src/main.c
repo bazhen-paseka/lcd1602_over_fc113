@@ -76,9 +76,9 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	uint32_t SizeChar;
+	uint8_t SizeChar;
 	char DataChar[32];
-	int i=1013;
+	uint32_t i=1213;
   /* USER CODE END 1 */
 
   /* MCU Configuration----------------------------------------------------------*/
@@ -102,13 +102,20 @@ int main(void)
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
 
-	LCD1602_Init();
-	I2C_ScanBus();
+	lcd1602_fc113_struct h1_lcd1602_fc113 =
+	{
+		.i2c = &hi2c1,
+		.device_i2c_address = ADR_I2C_FC113
+	};
+
+	LCD1602_Init(&h1_lcd1602_fc113);
+	I2C_ScanBus(&h1_lcd1602_fc113);
 	sprintf(DataChar,"AB1,AB2,AB3,AB4,AB5,AB6,AB7.");
 	SizeChar = strlen(DataChar);
-	LCD1602_Print_Char(&DataChar, SizeChar);
+	LCD1602_Print_Char(&h1_lcd1602_fc113, DataChar, SizeChar);
 	HAL_Delay(1000);
-	LCD1602_Clear();
+	LCD1602_Clear(&h1_lcd1602_fc113);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -116,9 +123,9 @@ int main(void)
   while (1)
   {
 		i++;
-		sprintf(DataChar,"i=%d\n",i);
+		sprintf(DataChar,"i= %d\n", (int)i);
 		SizeChar = strlen(DataChar);
-		LCD1602_Print_Char(&DataChar, SizeChar);
+		LCD1602_Print_Char(&h1_lcd1602_fc113, DataChar, SizeChar);
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
