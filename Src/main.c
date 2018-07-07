@@ -112,7 +112,7 @@ int main(void)
 	I2C_ScanBus(&h1_lcd1602_fc113);
 	sprintf(DataChar,"AB1,AB2,AB3,AB4,AB5,AB6,AB7.");
 	SizeChar = strlen(DataChar);
-	LCD1602_Print_Char(&h1_lcd1602_fc113, DataChar, SizeChar);
+	LCD1602_Print_Line(&h1_lcd1602_fc113, DataChar, SizeChar);
 	HAL_Delay(1000);
 	LCD1602_Clear(&h1_lcd1602_fc113);
 
@@ -122,15 +122,16 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		i++;
-		sprintf(DataChar,"i= %d\n", (int)i);
-		SizeChar = strlen(DataChar);
-		LCD1602_Print_Char(&h1_lcd1602_fc113, DataChar, SizeChar);
+	i++;
+	sprintf(DataChar,"i= %d\n", (int)i);
+	SizeChar = strlen(DataChar);
+	LCD1602_Print_Line(&h1_lcd1602_fc113, DataChar, SizeChar);
+
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port,LED_GREEN_Pin);
-HAL_Delay(300);
+	HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port,LED_GREEN_Pin);
+	HAL_Delay(300);
   }
   /* USER CODE END 3 */
 
