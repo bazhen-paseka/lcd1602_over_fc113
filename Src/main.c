@@ -47,6 +47,8 @@
 	#include "lcd1602_fc113_sm.h"
 	#define ADR_I2C_FC113 0x27
 
+	volatile int ic_reset = 0;
+	volatile int ic_work = 0;
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -78,7 +80,7 @@ int main(void)
   /* USER CODE BEGIN 1 */
 	uint8_t SizeChar;
 	char DataChar[32];
-	uint32_t i=1213;
+
   /* USER CODE END 1 */
 
   /* MCU Configuration----------------------------------------------------------*/
@@ -110,11 +112,13 @@ int main(void)
 
 	LCD1602_Init(&h1_lcd1602_fc113);
 	I2C_ScanBus(&h1_lcd1602_fc113);
-	sprintf(DataChar,"AB1,AB2,AB3,AB4,AB5,AB6,AB7.");
-	SizeChar = strlen(DataChar);
-	LCD1602_Print_Line(&h1_lcd1602_fc113, DataChar, SizeChar);
-	HAL_Delay(1000);
+//	sprintf(DataChar,"AB1,AB2,AB3,AB4,AB5,AB6,AB7.");
+//	SizeChar = strlen(DataChar);
+//	LCD1602_Print_Line(&h1_lcd1602_fc113, DataChar, SizeChar);
+//	HAL_Delay(1000);
 	LCD1602_Clear(&h1_lcd1602_fc113);
+	int ic_cnt_1 = 0;
+	int ic_cnt_2 = 0;
 
   /* USER CODE END 2 */
 
@@ -122,8 +126,37 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	i++;
-	sprintf(DataChar,"i= %d\n", (int)i);
+	  //if ((ic_work == 1) && (ic_cnt_1 < 100))
+	  if (ic_work == 1)
+	  {
+		  ic_cnt_1++;
+		  ic_cnt_2++;
+		  HAL_GPIO_TogglePin(RELAY_13_GPIO_Port, RELAY_13_Pin);
+			HAL_Delay(50);
+		  HAL_GPIO_TogglePin(RELAY_14_GPIO_Port, RELAY_14_Pin);
+	  }
+
+	if (ic_reset == 1)
+	{
+		  ic_cnt_1 = 0;
+		  ic_cnt_2 = 0;
+		  ic_work  = 0;
+		  ic_reset = 0;
+		LCD1602_Clear(&h1_lcd1602_fc113);
+	}
+
+	sprintf(DataChar,"ic_1= %d\n", ic_cnt_1);
+	SizeChar = strlen(DataChar);
+	LCD1602_Print_Line(&h1_lcd1602_fc113, DataChar, SizeChar);
+	HAL_Delay(50);
+
+	// if (ic_cnt_1%2 == 1)
+	{
+		//ic_cnt_2++;
+		//HAL_GPIO_TogglePin(ic_cnt_2_GPIO_Port, ic_cnt_2_Pin);
+	}
+
+	sprintf(DataChar,"ic_2= %d\n", ic_cnt_2);
 	SizeChar = strlen(DataChar);
 	LCD1602_Print_Line(&h1_lcd1602_fc113, DataChar, SizeChar);
 
@@ -131,7 +164,7 @@ int main(void)
 
   /* USER CODE BEGIN 3 */
 	HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port,LED_GREEN_Pin);
-	HAL_Delay(300);
+	//HAL_Delay(100);
   }
   /* USER CODE END 3 */
 

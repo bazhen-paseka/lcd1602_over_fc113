@@ -49,6 +49,10 @@
 
 /* Private define ------------------------------------------------------------*/
 
+#define RELAY_13_Pin GPIO_PIN_13
+#define RELAY_13_GPIO_Port GPIOC
+#define RELAY_14_Pin GPIO_PIN_14
+#define RELAY_14_GPIO_Port GPIOC
 #define LED_GREEN_Pin GPIO_PIN_1
 #define LED_GREEN_GPIO_Port GPIOA
 
