@@ -120,6 +120,14 @@ int main(void)
 	int ic_cnt_1 = 0;
 	int ic_cnt_2 = 0;
 
+	sprintf(DataChar,"ic1 = %d\n", ic_cnt_1);
+	SizeChar = strlen(DataChar);
+	LCD1602_Print_Line(&h1_lcd1602_fc113, DataChar, SizeChar);
+
+	sprintf(DataChar,"ic2 = %d\n", ic_cnt_2);
+	SizeChar = strlen(DataChar);
+	LCD1602_Print_Line(&h1_lcd1602_fc113, DataChar, SizeChar);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -132,10 +140,16 @@ int main(void)
 		ic_cnt_2++;
 
 		HAL_GPIO_TogglePin(RELAY_13_GPIO_Port, RELAY_13_Pin);
-		HAL_Delay(50);
+		//HAL_Delay(50);
+		sprintf(DataChar,"ic1 = %d\n", ic_cnt_1);
+		SizeChar = strlen(DataChar);
+		LCD1602_Print_Line(&h1_lcd1602_fc113, DataChar, SizeChar);
 
 		HAL_GPIO_TogglePin(RELAY_14_GPIO_Port, RELAY_14_Pin);
-		HAL_Delay(50);
+		//HAL_Delay(50);
+		sprintf(DataChar,"ic2 = %d\n", ic_cnt_2);
+		SizeChar = strlen(DataChar);
+		LCD1602_Print_Line(&h1_lcd1602_fc113, DataChar, SizeChar);
 	  }
 
 	if (ic_reset == 1)
@@ -146,20 +160,10 @@ int main(void)
 		ic_reset = 0;
 		LCD1602_Clear(&h1_lcd1602_fc113);
 	}
-
-	sprintf(DataChar,"ic1 = %d\n", ic_cnt_1);
-	SizeChar = strlen(DataChar);
-	LCD1602_Print_Line(&h1_lcd1602_fc113, DataChar, SizeChar);
-
-	sprintf(DataChar,"ic2 = %d\n", ic_cnt_2);
-	SizeChar = strlen(DataChar);
-	LCD1602_Print_Line(&h1_lcd1602_fc113, DataChar, SizeChar);
-
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
 	HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port,LED_GREEN_Pin);
-	//HAL_Delay(100);
   }
   /* USER CODE END 3 */
 
